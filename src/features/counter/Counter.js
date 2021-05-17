@@ -3,65 +3,41 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   decrement,
   increment,
-  incrementByAmount,
-  incrementAsync,
-  incrementIfOdd,
   selectCount,
+  incrementByAmount,
 } from './counterSlice';
-import styles from './Counter.module.css';
-
+import'./Counter.css';
+import {data} from './data';
+import Card from 'react-bootstrap/Card';
+import Navbar from 'react-bootstrap/Navbar';
+import { AiOutlineShoppingCart } from 'react-icons/ai';
+import Button from 'react-bootstrap/Button';
+import { Link } from 'react-router-dom';
 export function Counter() {
-  const count = useSelector(selectCount);
+    const count = useSelector(selectCount);
+    console.log(count);
   const dispatch = useDispatch();
-  const [incrementAmount, setIncrementAmount] = useState('2');
+ 
+   
+    return (
+        <div>
+          
+           <div className="mainDiv">
+            {
+                    data.map((data) => (
+                        <div >
+                        <Card style={{ width: '18rem' }} className="card">
+                                <Card.Img variant="top" src={data.imageUrl} />
+                                <Card.Title className="cardtitle">{data.title}</Card.Title>
+                                <h4>${data.price}</h4>
+                                <Card.Body>{data.description}</Card.Body>
+                                <Button variant="outline-success" onClick={() => dispatch(increment(data))}>ADD TO CART</Button>{' '}
+                            </Card>
 
-  const incrementValue = Number(incrementAmount) || 0;
-
-  return (
-    <div>
-      <div className={styles.row}>
-        <button
-          className={styles.button}
-          aria-label="Decrement value"
-          onClick={() => dispatch(decrement())}
-        >
-          -
-        </button>
-        <span className={styles.value}>{count}</span>
-        <button
-          className={styles.button}
-          aria-label="Increment value"
-          onClick={() => dispatch(increment())}
-        >
-          +
-        </button>
-      </div>
-      <div className={styles.row}>
-        <input
-          className={styles.textbox}
-          aria-label="Set increment amount"
-          value={incrementAmount}
-          onChange={(e) => setIncrementAmount(e.target.value)}
-        />
-        <button
-          className={styles.button}
-          onClick={() => dispatch(incrementByAmount(incrementValue))}
-        >
-          Add Amount
-        </button>
-        <button
-          className={styles.asyncButton}
-          onClick={() => dispatch(incrementAsync(incrementValue))}
-        >
-          Add Async
-        </button>
-        <button
-          className={styles.button}
-          onClick={() => dispatch(incrementIfOdd(incrementValue))}
-        >
-          Add If Odd
-        </button>
-      </div>
-    </div>
+                    </div>))
+            }
+            </div>
+            
+        </div>
   );
 }
